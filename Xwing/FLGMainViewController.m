@@ -25,6 +25,7 @@
     [self. view addGestureRecognizer:self.tap];
 }
 
+// Dos animaciones simultaneas
 - (void) didTap: (UITapGestureRecognizer *) tap{
     
     // Eliminamos el tap
@@ -32,9 +33,10 @@
     
     UIViewAnimationOptions options = UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut;
     
+    // Traslacion
     [UIView animateWithDuration:1.0
                           delay:0
-                        options:0 // podriamos forzar a que termine la animacion si o si
+                        options:options
                      animations:^{
                          // Estado final
                          self.xwingView.center = [tap locationInView:self.spaceView];
@@ -44,6 +46,26 @@
                          
                          // Añadimos el tap de nuevo
 //                         [self. view addGestureRecognizer:self.tap];
+                     }];
+    
+    // Rotacion
+    [UIView animateWithDuration:0.5
+                          delay:0
+                        options:options
+                     animations:^{
+                         self.xwingView.transform = CGAffineTransformMakeRotation(M_2_PI);
+                     } completion:^(BOOL finished) {
+                         
+                         // Al terminar...
+                         [UIView animateWithDuration:0.5
+                                               delay:0
+                                             options:options
+                                          animations:^{
+                                              // CGAffineTransformIdentity --> transformada identidad: estado inicial
+                                              self.xwingView.transform = CGAffineTransformIdentity;
+                                          } completion:^(BOOL finished) {
+                                              
+                                          }];
                      }];
 }
 
@@ -57,32 +79,7 @@
                          self.xwingView.alpha = 0.0;
                          
                      } completion:^(BOOL finished) {
-                         
-                     }];
-    
-    [UIView animateWithDuration:1.0
-                          delay:0.5
-                        options:0 // podriamos forzar a que termine la animacion si o si
-                     animations:^{
-                         // Estado final
-                         self.xwingView.center = [tap locationInView:self.spaceView];
-                         
-                     } completion:^(BOOL finished) {
-                         self.xwingView.alpha = 1.0;
-                     }];
-}
-
-- (void) didTap2: (UITapGestureRecognizer *) tap{
-    
-    [UIView animateWithDuration:0.5
-                          delay:0
-                        options:0 // podriamos forzar a que termine la animacion si osi
-                     animations:^{
-                         // Estado final
-                         self.xwingView.alpha = 0.0;
-                         
-                     } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:1.0
+                         [UIView animateWithDuration:0.5
                                                delay:0.5
                                              options:0 // podriamos forzar a que termine la animacion si o si
                                           animations:^{
@@ -90,17 +87,18 @@
                                               self.xwingView.center = [tap locationInView:self.spaceView];
                                               
                                           } completion:^(BOOL finished) {
-                                              [UIView animateWithDuration:0.5
-                                                                    delay:0
-                                                                  options:0 // podriamos forzar a que termine la animacion si osi
-                                                               animations:^{
-                                                                   // Estado final
-                                                                   self.xwingView.alpha = 0.0;
-                                                                   
-                                                               } completion:^(BOOL finished) {
-                                                                   
-                                                               }];
+                                              
                                           }];
+                     }];
+    [UIView animateWithDuration:0.5
+                          delay:1.0
+                        options:0 // podriamos forzar a que termine la animacion si osi
+                     animations:^{
+                         // Estado final
+                         self.xwingView.alpha = 0.0;
+                         
+                     } completion:^(BOOL finished) {
+                         
                      }];
 }
 
