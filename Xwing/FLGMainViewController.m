@@ -20,9 +20,11 @@
     
     // Creamos un detector de Tap
     self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
+    self.swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipe:)];
     
     // Lo añadimos
     [self. view addGestureRecognizer:self.tap];
+    [self. view addGestureRecognizer:self.swipe];
 }
 
 // Dos animaciones simultaneas
@@ -69,7 +71,7 @@
                      }];
 }
 
-- (void) didTap1: (UITapGestureRecognizer *) tap{
+- (void) didSwipe: (UITapGestureRecognizer *) swipe{
     
     [UIView animateWithDuration:0.5
                           delay:0
@@ -84,7 +86,13 @@
                                              options:0 // podriamos forzar a que termine la animacion si o si
                                           animations:^{
                                               // Estado final
-                                              self.xwingView.center = [tap locationInView:self.spaceView];
+                                              int spaceWidth = (int)self.spaceView.frame.size.width;
+                                              int spaceHeight = (int)self.spaceView.frame.size.height;
+//                                              CGFloat xwingWidth = self.xwingView.frame.size.width;
+//                                              CGFloat xwingHeight = self.xwingView.frame.size.height;
+                                              
+                                              CGPoint center = CGPointMake(arc4random() %spaceWidth, arc4random() %spaceHeight);
+                                              self.xwingView.center = center;
                                               
                                           } completion:^(BOOL finished) {
                                               
@@ -95,7 +103,7 @@
                         options:0 // podriamos forzar a que termine la animacion si osi
                      animations:^{
                          // Estado final
-                         self.xwingView.alpha = 0.0;
+                         self.xwingView.alpha = 1.0;
                          
                      } completion:^(BOOL finished) {
                          

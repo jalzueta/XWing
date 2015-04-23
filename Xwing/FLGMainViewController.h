@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *xwingView;
 
 @property (strong, nonatomic) UITapGestureRecognizer *tap;
+@property (strong, nonatomic) UISwipeGestureRecognizer *swipe;
 
 @end
